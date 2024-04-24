@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginTop="100dp"
-        android:text="WeLCOME TO RESTAURANT"
+        android:text="WELCOME TO RESTAURANT"
         android:textColor="@color/white"
         android:textSize="60sp"/>
 
