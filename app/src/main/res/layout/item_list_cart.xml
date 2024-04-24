@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+
+    <ImageView
+        android:id="@+id/cart_item_avatarImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="avart"
+        android:src="@drawable/defaulavatar"
+        android:textSize="100dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/cart_item_avatarImageView"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:padding="10dp">
+        <TextView
+            android:id="@+id/item_cart_staffname"
+            android:text="NameStaff:"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/item_cart_namefood"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NameFood:"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/item_cart_meprice"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price:"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/item_cart_quanlity"
+            android:text="Quanlity:"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/text_item_price"
+            android:text="Price of the dish:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <ImageButton
+                android:id="@+id/button_Cart_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_edit_24"/>
+            <ImageButton
+                android:id="@+id/button_cart_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_delete_24"/>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

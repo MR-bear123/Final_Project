@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/Account"
+            android:title="Creat Account"
+            android:icon="@drawable/baseline_person_add_24"/>
+
+        <item android:id="@+id/Warehouses"
+            android:title="Book a table"
+            android:icon="@drawable/baseline_home_filled_24"/>
+
+        <item android:id="@+id/Food"
+            android:title="Creat Food and Drink"
+            android:icon="@drawable/baseline_fastfood_24"/>
+
+        <item android:id="@+id/Listemloyee"
+            android:title="Staff list"
+            android:icon="@drawable/baseline_list_24"/>
+
+        <item android:id="@+id/Cart"
+            android:title="Cart"
+            android:icon="@drawable/baseline_shopping_cart_24"/>
+
+        <item android:id="@+id/Carthis"
+            android:title="Cart History"
+            android:iconTintMode="multiply"
+            android:iconTint="@null"
+            android:icon="@drawable/baseline_access_time_filled_24"
+            />
+        <item android:id="@+id/chart"
+            android:title="Bar Chart"
+            android:iconTintMode="multiply"
+            android:iconTint="@null"
+            android:icon="@drawable/baseline_bar_chart_24"
+            />
+    </group>
+
+    <item android:title="@string/Account">
+        <menu>
+            <item android:id="@+id/Profile"
+                android:title="My Profile"
+                android:icon="@drawable/baseline_person_pin_24"/>
+
+            <item android:id="@+id/Chang"
+                android:title="Change Password"
+                android:icon="@drawable/baseline_password_24"/>
+
+            <item android:id="@+id/Logout"
+                android:title="Logout"
+                android:icon="@drawable/baseline_logout_24"/>
+        </menu>
+    </item>
+</menu>
