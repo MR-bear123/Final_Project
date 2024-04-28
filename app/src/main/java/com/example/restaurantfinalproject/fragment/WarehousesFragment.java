@@ -185,7 +185,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                         updatedTable.setId(changedKey);
                         listTable.set(i, updatedTable);
                         listWarehousesAdapter.notifyItemChanged(i);
-                        checkBookingTime(updatedTable);
+//                        checkBookingTime(updatedTable);
                         if (updatedTable.getStatus().equals("rejected") && !updatedTable.isSMSSent()) {
                             if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_SEND_SMS);
