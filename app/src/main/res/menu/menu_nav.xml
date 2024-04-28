@@ -20,17 +20,17 @@
             android:icon="@drawable/baseline_list_24"/>
 
         <item android:id="@+id/Cart"
-            android:title="Cart"
+            android:title="Order"
             android:icon="@drawable/baseline_shopping_cart_24"/>
 
         <item android:id="@+id/Carthis"
-            android:title="Cart History"
+            android:title="Order History"
             android:iconTintMode="multiply"
             android:iconTint="@null"
             android:icon="@drawable/baseline_access_time_filled_24"
             />
         <item android:id="@+id/chart"
-            android:title="Bar Chart"
+            android:title="Statistic"
             android:iconTintMode="multiply"
             android:iconTint="@null"
             android:icon="@drawable/baseline_bar_chart_24"
