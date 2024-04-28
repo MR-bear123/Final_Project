@@ -156,6 +156,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
                                         cart.setIdcart(dataSnapshot.getKey());
                                         listCart.add(cart);
                                         int position = listCart.size() - 1;
+                                        recyclerView.removeAllViews();
                                         listCartAdapter.notifyItemInserted(position);
                                     }
                                 }
