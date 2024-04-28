@@ -167,7 +167,6 @@ public class DashboardPage extends AppCompatActivity implements NavigationView.O
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.Account) {
-            // Only replace fragment if it's not already the current fragment
             if (mCurrentFragment != FRAGMENT_ACCOUNT) {
                 replaceFragment(mAccountFragment);
                 mCurrentFragment = FRAGMENT_ACCOUNT;

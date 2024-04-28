@@ -193,8 +193,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                                 sendSMS(updatedTable.getCuphone(), "Welcome to Restaurant, Dear " +
                                         updatedTable.getCuname() + ", Your table has been booked" +
                                         "\nOn date" + updatedTable.getDate() + " At " + updatedTable.getTime() + ". \nYour booking code is: " + updatedTable.getRandomCode() +
-                                        ".\naaaaaWe have updated customer information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
-
+                                        ".\nWe have updated customer information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
                                 updatedTable.setSMSSent(true);
                             }
                         }
