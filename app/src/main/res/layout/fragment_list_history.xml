@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="List of oder history"
+        android:text="List of order history"
         android:textColor="@color/white"
         android:textSize="40sp" />
 
