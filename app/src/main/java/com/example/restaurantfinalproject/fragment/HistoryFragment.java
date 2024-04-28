@@ -89,7 +89,7 @@ public class HistoryFragment extends Fragment {
                         historyList.clear();
                         loadAllHis();
                         progressDialog.dismiss();
-                        Toast.makeText(requireContext(), "Repload list Users successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Repload list order history successfully", Toast.LENGTH_SHORT).show();
                     }
                 }, 2000);
             }

@@ -95,7 +95,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
                         listCart.clear();
                         loadAllCart();
                         progressDialog.dismiss();
-                        Toast.makeText(requireContext(), "Repload list Users successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Repload list Order successfully", Toast.LENGTH_SHORT).show();
                     }
                 }, 2000);
             }
