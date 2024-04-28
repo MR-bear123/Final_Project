@@ -92,7 +92,7 @@ public class LoginPage extends AppCompatActivity {
                                             if (role.equals("Staff")) {
                                                 Intent intent = new Intent(LoginPage.this, MainActivity.class);
                                                 startActivity(intent);
-                                                Toast.makeText(LoginPage.this, "User Login successfully", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(LoginPage.this, "Staff Login successfully", Toast.LENGTH_SHORT).show();
                                             } else if (role.equals("Admin")) {
                                                 Intent intent = new Intent(LoginPage.this, DashboardPage.class);
                                                 startActivity(intent);
