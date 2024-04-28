@@ -40,7 +40,7 @@ public class add_food extends AppCompatActivity {
         Toolbar toolbar = binding.toolbarmenu;
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Creat Food and Drink");
+        getSupportActionBar().setTitle("Creat Menu");
 
         MenuRef = FirebaseDatabase.getInstance().getReference("FoodandDrink");
 
