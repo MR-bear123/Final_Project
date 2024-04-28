@@ -97,7 +97,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
                         progressDialog.dismiss();
                         Toast.makeText(requireContext(), "Repload list Order successfully", Toast.LENGTH_SHORT).show();
                     }
-                }, 2000);
+                }, 10000);
             }
         });
 
@@ -216,7 +216,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
     @Override
     public void onDeleteCartButtonClicked(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("Are you sure you want to delete this table?")
+        builder.setMessage("Are you sure you want to delete this order?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -235,7 +235,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
                                             listCart.remove(index);
                                             listCartAdapter.notifyItemRemoved(index);
                                         }
-                                        Toast.makeText(getContext(), "Table deleted successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Order deleted successfully", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -282,7 +282,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
                                 if (task.isSuccessful()) {
                                     listCart.set(position, updatedCart);
                                     listCartAdapter.notifyDataSetChanged();
-                                    Toast.makeText(requireContext(), "Updated booking table successfully", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), "Updated order successfully", Toast.LENGTH_SHORT).show();
                                     calculateTotalPriceFromFirebase();
                                 }
                             }
