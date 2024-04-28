@@ -185,7 +185,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                         updatedTable.setId(changedKey);
                         listTable.set(i, updatedTable);
                         listWarehousesAdapter.notifyItemChanged(i);
-                        checkBookingTime(updatedTable);
+
                         if (updatedTable.getStatus().equals("rejected") && !updatedTable.isSMSSent()) {
                             if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_SEND_SMS);
@@ -194,13 +194,16 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                                         updatedTable.getCuname() + ", Your table has been booked" +
                                         "\nOn date" + updatedTable.getDate() + " At " + updatedTable.getTime() + ". \nYour booking code is: " + updatedTable.getRandomCode() +
                                         ".\nWe have canceled your dining reservation information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
+
                                 updatedTable.setSMSSent(true);
+                                databaseReference.child(updatedTable.getId()).child("isSMSSent").setValue(true);
                             }
                         }
                         break;
                     }
                 }
             }
+
 
 
             @Override
@@ -367,11 +370,13 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                                     Toast.makeText(requireContext(), "Updated booking table successfully", Toast.LENGTH_SHORT).show();
                                     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_SEND_SMS);
-                                    } else {
-                                        sendSMS(table.getCuphone(), "Welcome to Restaurant, Dear "
-                                                + table.getCuname() + ", Your table has been booked" +
-                                                "\nOn date" + table.getDate() + " At " + table.getTime() + ". \nYour booking code is: " + table.getRandomCode()
-                                                + ".\nWe have updated customer information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
+                                    } else if (!table.isSMSSent()) {
+                                        sendSMS(table.getCuphone(), "Welcome to Restaurant, Dear " +
+                                                table.getCuname() + ", Your table has been booked" +
+                                                "\nOn date" + table.getDate() + " At " + table.getTime() + ". \nYour booking code is: " + table.getRandomCode() +
+                                                ".\nWe have updated your dining reservation information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
+                                        table.setSMSSent(true);
+                                        databaseReference.child(table.getId()).child("isSMSSent").setValue(true);
                                     }
                                 }
                             }
@@ -426,28 +431,21 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
             long diffInMillies = Math.abs(currentTime.getTime() - bookingTime.getTime());
             long diffInMinutes = diffInMillies / (60 * 1000);
 
-            if (!table.getStatus().equals("accepted")) {
-                if (diffInMinutes > 5) {
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("bookings").child(table.getId());
-                    databaseReference.child("status").setValue("rejected")
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(requireContext(), "The table refusal status has been updated in the Database", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(requireContext(), "The table refusal status has been updated failed in the Database", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                }
+            // Chỉ cập nhật nếu thời gian quá hạn và cờ "isSMSSent" là `false`
+            if (!table.getStatus().equals("accepted") && diffInMinutes > 5 && !table.isSMSSent()) {
+                databaseReference.child(table.getId()).child("status").setValue("rejected")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getContext(), "The booking has been canceled due to timeout.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
+
     private void sendSMS(String phoneNumber, String message) {
         try {
             SmsManager smsManager = SmsManager.getDefault();
