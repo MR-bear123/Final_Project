@@ -193,7 +193,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                                 sendSMS(updatedTable.getCuphone(), "Welcome to Restaurant, Dear " +
                                         updatedTable.getCuname() + ", Your table has been booked" +
                                         "\nOn date" + updatedTable.getDate() + " At " + updatedTable.getTime() + ". \nYour booking code is: " + updatedTable.getRandomCode() +
-                                        ".\nWe canceled your table because it was too late to book your table. Thank you for using our service.");
+                                        ".\nWe have canceled your dining reservation information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
                                 updatedTable.setSMSSent(true);
                             }
                         }
