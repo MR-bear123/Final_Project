@@ -269,7 +269,7 @@ public class FoodFragment extends Fragment implements ListFoodAdapter.MenuButton
     @Override
     public void onDeleteMenuButtonClicked(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("Are you sure you want to delete this table?")
+        builder.setMessage("Are you sure you want to delete this menu?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -393,7 +393,7 @@ public class FoodFragment extends Fragment implements ListFoodAdapter.MenuButton
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
                                             uploadImage();
-                                            Toast.makeText(requireContext(), "Updated food successfully", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(requireContext(), "Updated menu successfully", Toast.LENGTH_SHORT).show();
                                             new Handler().postDelayed(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -515,7 +515,7 @@ public class FoodFragment extends Fragment implements ListFoodAdapter.MenuButton
         foodRef.child("imageUrl").setValue(imageUrl)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(requireContext(), "Food image updated successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Menu image updated successfully", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(requireContext(), "Failed to update food image", Toast.LENGTH_SHORT).show();
                     }
