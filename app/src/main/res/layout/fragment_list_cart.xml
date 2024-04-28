@@ -36,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
+        android:background="@color/white"
         android:hint="Number Table"/>
     <TextView
         android:id="@+id/text_total_price"
