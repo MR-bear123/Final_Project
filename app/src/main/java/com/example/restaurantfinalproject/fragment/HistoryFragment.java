@@ -78,7 +78,7 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ProgressDialog progressDialog = new ProgressDialog(requireContext());
-                progressDialog.setMessage("Reload List Users...");
+                progressDialog.setMessage("Reload List History Order...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
 
@@ -89,7 +89,7 @@ public class HistoryFragment extends Fragment {
                         historyList.clear();
                         loadAllHis();
                         progressDialog.dismiss();
-                        Toast.makeText(requireContext(), "Repload list order history successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Repload list history order successfully", Toast.LENGTH_SHORT).show();
                     }
                 }, 2000);
             }

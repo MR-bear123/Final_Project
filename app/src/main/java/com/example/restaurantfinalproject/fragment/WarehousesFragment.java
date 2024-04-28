@@ -118,7 +118,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                 @Override
                 public void onClick(View v) {
                     ProgressDialog progressDialog = new ProgressDialog(requireContext());
-                    progressDialog.setMessage("Reload List Users...");
+                    progressDialog.setMessage("Reload List Table...");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
 
@@ -151,9 +151,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(getContext(), "Table status updated successfully", Toast.LENGTH_SHORT).show();
-                        // Update the status in the list
                         listTable.set(position, table);
-                        // Notify the adapter that the data has changed
                         listWarehousesAdapter.notifyItemChanged(position);
                     } else {
                         Toast.makeText(getContext(), "Failed to update table status", Toast.LENGTH_SHORT).show();
@@ -189,12 +187,9 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                         listWarehousesAdapter.notifyItemChanged(i);
                         checkBookingTime(updatedTable);
                         if (updatedTable.getStatus().equals("rejected") && !updatedTable.isSMSSent()) {
-                            // Kiểm tra quyền SEND_SMS
                             if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                // Yêu cầu quyền SEND_SMS nếu chưa được cấp
                                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_SEND_SMS);
                             } else {
-                                // Gửi tin nhắn
                                 sendSMS(updatedTable.getCuphone(), "Welcome to Restaurant, Dear " +
                                         updatedTable.getCuname() + ", Your table has been booked" +
                                         "\nOn date" + updatedTable.getDate() + " At " + updatedTable.getTime() + ". \nYour booking code is: " + updatedTable.getRandomCode() +

@@ -16,7 +16,7 @@
             android:icon="@drawable/baseline_fastfood_24"/>
 
         <item android:id="@+id/Listemloyee"
-            android:title="Staff list"
+            android:title="List account staff"
             android:icon="@drawable/baseline_list_24"/>
 
         <item android:id="@+id/Cart"
@@ -24,7 +24,7 @@
             android:icon="@drawable/baseline_shopping_cart_24"/>
 
         <item android:id="@+id/Carthis"
-            android:title="Order History"
+            android:title="History Order"
             android:iconTintMode="multiply"
             android:iconTint="@null"
             android:icon="@drawable/baseline_access_time_filled_24"

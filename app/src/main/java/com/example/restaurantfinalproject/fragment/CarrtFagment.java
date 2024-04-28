@@ -84,7 +84,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
             @Override
             public void onClick(View v) {
                 ProgressDialog progressDialog = new ProgressDialog(requireContext());
-                progressDialog.setMessage("Reload List Users...");
+                progressDialog.setMessage("Reload List Order...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
 
@@ -114,7 +114,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
 
     private void scheduleCartListRefreshing() {
         ProgressDialog progressDialog = new ProgressDialog(requireContext());
-        progressDialog.setMessage("Reload List Users...");
+        progressDialog.setMessage("Reload List Order...");
         progressDialog.setCancelable(false);
         progressDialog.show();
 
@@ -126,7 +126,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
                 // Load the list of carts
                 loadAllCart();
                 progressDialog.dismiss();
-                Toast.makeText(requireContext(), "Auto Reload list Users successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Auto Reload list order successfully", Toast.LENGTH_SHORT).show();
                 // Schedule the next refresh
                 handler.postDelayed(this, REFRESH_INTERVAL);
             }
