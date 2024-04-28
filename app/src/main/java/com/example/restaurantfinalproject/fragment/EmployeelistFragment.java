@@ -95,7 +95,7 @@ public class EmployeelistFragment extends Fragment implements ListEmployeeAdapte
             @Override
             public void onClick(View v) {
                 ProgressDialog progressDialog = new ProgressDialog(requireContext());
-                progressDialog.setMessage("Reload List Users...");
+                progressDialog.setMessage("Reload List Account Staff...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
 
@@ -106,7 +106,7 @@ public class EmployeelistFragment extends Fragment implements ListEmployeeAdapte
                         listUser.clear();
                         loadAllUsers();
                         progressDialog.dismiss();
-                        Toast.makeText(requireContext(), "Repload list Users successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Repload list account staff successfully", Toast.LENGTH_SHORT).show();
                     }
                 }, 2000);
             }
@@ -218,7 +218,7 @@ public class EmployeelistFragment extends Fragment implements ListEmployeeAdapte
     @Override
     public void onDeleteButtonClicked(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setMessage("Are you sure you want to delete this user?")
+        builder.setMessage("Are you sure you want to delete this account?")
                 .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -237,7 +237,7 @@ public class EmployeelistFragment extends Fragment implements ListEmployeeAdapte
                                             listUser.remove(index);
                                             listEmployeeAdapter.notifyItemRemoved(index);
                                         }
-                                        Toast.makeText(getContext(), "User deleted successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Account deleted successfully", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
