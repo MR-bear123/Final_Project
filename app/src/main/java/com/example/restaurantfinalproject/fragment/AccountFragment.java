@@ -79,8 +79,7 @@ public class AccountFragment extends Fragment {
                             String userId = user.getUid();
                             Users userObject = new Users(userId, userName, userPhone, userEmail, userPassword, "Staff");
                             firebaseDatabase.getReference().child("Users").child(userId).setValue(userObject);
-                            Toast.makeText(getContext(), "" +
-                                    "", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Registered successfully", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(getContext(), "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
