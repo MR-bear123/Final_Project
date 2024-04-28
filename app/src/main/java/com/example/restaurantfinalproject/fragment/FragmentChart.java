@@ -29,10 +29,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class FragmentChart extends Fragment {
     private DatabaseReference database;
-    private BarChart barChart1,barChart2 ;
+    private BarChart barChart1, barChart2;
+    private ValueEventListener listener1, listener2;
 
     @Nullable
     @Override
@@ -40,12 +40,11 @@ public class FragmentChart extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chart, container, false);
 
         barChart1 = view.findViewById(R.id.firstBarChart);
-
         barChart2 = view.findViewById(R.id.secondBarChart);
 
         database = FirebaseDatabase.getInstance().getReference("payhis");
 
-        database.addListenerForSingleValueEvent(new ValueEventListener() {
+        listener1 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, Double> userTotalPrices = new HashMap<>();
@@ -66,7 +65,6 @@ public class FragmentChart extends Fragment {
                 List<Integer> colors = new ArrayList<>();
                 int index = 0;
 
-                // Define a list of colors for each bar
                 int[] chartColors = {
                         Color.RED,
                         Color.BLUE,
@@ -80,19 +78,16 @@ public class FragmentChart extends Fragment {
 
                 for (Map.Entry<String, Double> entry : userTotalPrices.entrySet()) {
                     entries.add(new BarEntry(index, entry.getValue().floatValue()));
-
-                    labels.add(entry.getKey()); // Add user name to x-axis labels
-                    colors.add(chartColors[index % chartColors.length]); // Assign color to each bar
+                    labels.add(entry.getKey());
+                    colors.add(chartColors[index % chartColors.length]);
                     index++;
                 }
 
-                // Create BarDataSet and BarData for the bar chart
                 BarDataSet dataSet = new BarDataSet(entries, "Total amount paid by employee");
-                dataSet.setColors(colors); // Set individual colors for each bar
+                dataSet.setColors(colors);
 
                 BarData barData = new BarData(dataSet);
 
-                // Configure the bar chart
                 barChart1.setData(barData);
                 barChart1.getXAxis().setGranularity(1);
                 barChart1.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
@@ -109,11 +104,11 @@ public class FragmentChart extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle error case
+                // Handle errors
             }
-        });
+        };
 
-        database.addListenerForSingleValueEvent(new ValueEventListener() {
+        listener2 = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, Double> totalPricesByDate  = new HashMap<>();
@@ -121,15 +116,13 @@ public class FragmentChart extends Fragment {
                 // Browse through the database to calculate the total amount for each user on each date
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Double totalPrice = snapshot.child("totalPrice").getValue(Double.class);
-                    String date = snapshot.child("date").getValue(String.class); // Example of timestamp
+                    String date = snapshot.child("date").getValue(String.class);
 
                     if (totalPrice != null && date != null) {
                         totalPricesByDate.put(date, totalPricesByDate.getOrDefault(date, 0.0) + totalPrice);
-
                     }
                 }
 
-                // Convert data to BarEntries for MPAndroidChart
                 List<BarEntry> entries = new ArrayList<>();
                 List<String> labels = new ArrayList<>();
                 List<Integer> colors = new ArrayList<>();
@@ -153,19 +146,16 @@ public class FragmentChart extends Fragment {
                     index++;
                 }
 
-
-                // Create BarDataSet and BarData for the bar chart
                 BarDataSet dataSet = new BarDataSet(entries, "Total Amount by Date");
                 dataSet.setColors(colors);
 
                 BarData barData = new BarData(dataSet);
 
-                // Configure the bar chart
                 barChart2.setData(barData);
                 barChart2.getXAxis().setGranularity(1);
                 barChart2.getXAxis().setValueFormatter(new IndexAxisValueFormatter(labels));
                 barChart2.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
-                barChart2.invalidate(); // Refresh the chart to display the data
+                barChart2.invalidate(); // Refresh the chart to display data
 
                 Description description = new Description();
                 description.setText("Total Amount by Date");
@@ -179,9 +169,21 @@ public class FragmentChart extends Fragment {
             public void onCancelled(DatabaseError databaseError) {
                 // Handle errors
             }
-        });
+        };
+
+        database.addValueEventListener(listener1);
+        database.addValueEventListener(listener2);
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        database.removeEventListener(listener1);
+        database.removeEventListener(listener2);
+        database.removeEventListener(listener2);
 
     }
 }
+
