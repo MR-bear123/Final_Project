@@ -126,6 +126,7 @@ public class EmployeelistFragment extends Fragment implements ListEmployeeAdapte
                         @Override
                         public void run() {
                             listUser.add(users);
+                            recyclerView.removeAllViews();
                             listEmployeeAdapter.notifyDataSetChanged();
                         }
                     });
