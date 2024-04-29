@@ -129,7 +129,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                             listTable.clear();
                             loadAllTable();
                             progressDialog.dismiss();
-                            Toast.makeText(requireContext(), "Repload list table successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Reload list table successfully", Toast.LENGTH_SHORT).show();
                         }
                     }, 2000);
                 }
@@ -431,7 +431,6 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
             long diffInMillies = Math.abs(currentTime.getTime() - bookingTime.getTime());
             long diffInMinutes = diffInMillies / (60 * 1000);
 
-            // Chỉ cập nhật nếu thời gian quá hạn và cờ "isSMSSent" là `false`
             if (!table.getStatus().equals("accepted") && diffInMinutes > 5 && !table.isSMSSent()) {
                 databaseReference.child(table.getId()).child("status").setValue("rejected")
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
