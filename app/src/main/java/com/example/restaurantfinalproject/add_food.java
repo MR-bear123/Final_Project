@@ -122,7 +122,7 @@ public class add_food extends AppCompatActivity {
                 if (fid != null) {
                     Food food = new Food(fid, name, description, type, price, imageUrl);
                     MenuRef.child(fid).setValue(food);
-                    Toast.makeText(this, "Food added successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Menu added successfully", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss(); // Dismiss ProgressDialog after successful upload
                     finish();
                 }

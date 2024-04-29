@@ -76,9 +76,9 @@
                 android:id="@+id/Menu_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/baseline_timer_24"
+                android:drawableEnd="@drawable/baseline_paid_24"
                 android:hint="Price"
-                android:inputType="textPhonetic"
+                android:inputType="number"
                 android:padding="8dp"
                 android:textSize="20dp" />
 
