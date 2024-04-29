@@ -288,7 +288,7 @@ public class FoodFragment extends Fragment implements ListFoodAdapter.MenuButton
                                             listFood.remove(index);
                                             listFoodAdapter.notifyItemRemoved(index);
                                         }
-                                        Toast.makeText(getContext(), "Table deleted successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), "Menu deleted successfully", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
