@@ -61,7 +61,7 @@ public class ChangPasswordFragment extends Fragment {
             public void onClick(View v) {
                 final String email = emailEditText.getText().toString();
                 if (email.isEmpty() ) {
-                    Toast.makeText(requireContext(), "Please enter email and new password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Please enter email", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
