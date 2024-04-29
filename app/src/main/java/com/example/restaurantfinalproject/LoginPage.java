@@ -104,7 +104,7 @@ public class LoginPage extends AppCompatActivity {
                                         }
                                     });
                                 } else {
-                                    Toast.makeText(LoginPage.this, "Please verify your email before logging in.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(LoginPage.this, "Please verify your email before logging in", Toast.LENGTH_LONG).show();
                                     // Log users out to ensure they cannot access the application
                                     mAuthSI.signOut();
                                 }
