@@ -267,7 +267,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
         bottomSheetDialog.setContentView(dialogView);
 
         EditText quantityEditText = dialogView.findViewById(R.id.Cart_Uquanlity);
-        quantityEditText.setText(String.valueOf(cart.getQuantity()));
+        quantityEditText.setText(String.valueOf(cart.getQuanlity()));
 
         dialogView.findViewById(R.id.Cart_update).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -326,10 +326,10 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
                             if (cartSnapshot.exists()) {
                                 String foodName = cartSnapshot.child("namefood").getValue(String.class);
                                 String number = binding.numbertabel.getText().toString().trim();
-
+                                int quanlity = cartSnapshot.child("quanlity").getValue(Integer.class);
 
                                 String kettid = cartKe.push().getKey();
-                                Kitchen ketItem = new Kitchen(kettid,number,userName,foodName,Des,"Processing");
+                                Kitchen ketItem = new Kitchen(kettid,number,userName,foodName,quanlity,Des,"Processing");
 
                                 DatabaseReference kettRef = FirebaseDatabase.getInstance().getReference().child("ketchin");
                                 kettRef.push().setValue(ketItem);
@@ -380,7 +380,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                     Cart cart = snapshot.getValue(Cart.class);
                                     if (cart != null) {
-                                        totalPrice += cart.getPrice() * cart.getQuantity();
+                                        totalPrice += cart.getPrice() * cart.getQuanlity();
                                     }
                                 }
                                 TextView totalPriceTextView = binding.textTotalPrice;
@@ -423,9 +423,9 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                     Cart cart = snapshot.getValue(Cart.class);
                                     if (cart != null) {
-                                        Cart carts = new Cart(cart.getNamefood(), cart.getPrice(),cart.getQuantity());
+                                        Cart carts = new Cart(cart.getNamefood(), cart.getPrice(),cart.getQuanlity());
                                         cartList.add(carts);
-                                        totalPrice += cart.getPrice() * cart.getQuantity();
+                                        totalPrice += cart.getPrice() * cart.getQuanlity();
                                     }
                                 }
 
@@ -461,7 +461,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
         StringBuilder dialogMessage = new StringBuilder();
         dialogMessage.append("Food Information:\n");
         for (Cart cart : cartList) {
-            dialogMessage.append("- ").append(cart.getNamefood()).append(": $").append(cart.getPrice()).append("+").append(cart.getQuantity()).append("\n");
+            dialogMessage.append("- ").append(cart.getNamefood()).append(": $").append(cart.getPrice()).append("+").append(cart.getQuanlity()).append("\n");
         }
         dialogMessage.append("\nTotal Price: $").append(totalPrice);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

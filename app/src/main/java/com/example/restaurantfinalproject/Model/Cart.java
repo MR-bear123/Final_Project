@@ -6,7 +6,7 @@ public class Cart {
     private String namefood;
     private String ImageUrl;
     private double price;
-    private int quantity;
+    private int quanlity;
 
     public Cart() {
     }
@@ -14,7 +14,7 @@ public class Cart {
     public Cart(String namefood, double price, int quantity) {
         this.namefood = namefood;
         this.price = price;
-        this.quantity = quantity;
+        this.quanlity = quantity;
     }
 
     public Cart(String idcart, String nameStaff, String namefood, String imageUrl, double price, int quantity) {
@@ -23,7 +23,7 @@ public class Cart {
         this.namefood = namefood;
         ImageUrl = imageUrl;
         this.price = price;
-        this.quantity = quantity;
+        this.quanlity = quantity;
     }
 
     // Getters and setters
@@ -35,13 +35,13 @@ public class Cart {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+//    public int getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(int quantity) {
+//        this.quantity = quantity;
+//    }
 
     public String getNameStaff() {
         return nameStaff;
@@ -73,6 +73,14 @@ public class Cart {
 
     public void setIdcart(String idcart) {
         this.idcart = idcart;
+    }
+
+    public int getQuanlity() {
+        return quanlity;
+    }
+
+    public void setQuanlity(int quanlity) {
+        this.quanlity = quanlity;
     }
 }
 

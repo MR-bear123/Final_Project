@@ -7,17 +7,19 @@ public class Kitchen {
     private String numberTable;
     private String userName;
     private String namefood;
+    private int quanlity;
     private String Description;
     private String Stastu;
 
     public Kitchen() {
     }
 
-    public Kitchen(String id, String numberTable, String userName, String namefood, String description, String stastu) {
+    public Kitchen(String id, String numberTable, String userName, String namefood, int quanlity, String description, String stastu) {
         this.id = id;
         this.numberTable = numberTable;
         this.userName = userName;
         this.namefood = namefood;
+        this.quanlity = quanlity;
         Description = description;
         Stastu = stastu;
     }
@@ -69,5 +71,13 @@ public class Kitchen {
 
     public void setStastu(String stastu) {
         Stastu = stastu;
+    }
+
+    public int getQuanlity() {
+        return quanlity;
+    }
+
+    public void setQuanlity(int quanlity) {
+        this.quanlity = quanlity;
     }
 }
