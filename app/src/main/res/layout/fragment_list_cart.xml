@@ -35,9 +35,22 @@
         android:id="@+id/numbertabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:drawable/editbox_background"
         android:inputType="number"
-        android:background="@color/white"
+        android:textColor="@color/black"
         android:hint="Number Table"/>
+    <EditText
+        android:id="@+id/Cart_Description"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@android:drawable/editbox_background"
+        android:drawableEnd="@drawable/baseline_description_24"
+        android:hint="Description"
+        android:inputType="textImeMultiLine"
+        android:lines="5"
+        android:textColor="@color/black"
+        android:padding="8dp"
+        android:textSize="20dp" />
     <TextView
         android:id="@+id/text_total_price"
         android:layout_width="wrap_content"

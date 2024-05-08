@@ -24,6 +24,7 @@ public class ListCartAdapter extends RecyclerView.Adapter<ListCartAdapter.ListCa
 
 //        void repload(int position);
         void onUpdateCartButtonClicked(int position);
+        void onBellCartButtonClicked(int positon);
 
     }
     public ListCartAdapter(List<Cart> mCarts, ListCartAdapter.CartButtonClickListener listener) {
@@ -67,7 +68,7 @@ public class ListCartAdapter extends RecyclerView.Adapter<ListCartAdapter.ListCa
     public class ListCartHolder extends RecyclerView.ViewHolder {
         TextView namestaff, namefood, price, qua, textItemPrice;
         ImageView avatarImageViewcart;
-        private ImageButton mButtonCartDelete, mButtonCartUpdate;
+        private ImageButton mButtonCartDelete, mButtonCartUpdate, mButtonCartBell;
         public ListCartHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -79,6 +80,7 @@ public class ListCartAdapter extends RecyclerView.Adapter<ListCartAdapter.ListCa
             mButtonCartUpdate = itemView.findViewById(R.id.button_Cart_update);
             mButtonCartDelete = itemView.findViewById(R.id.button_cart_delete);
             textItemPrice = itemView.findViewById(R.id.text_item_price);
+            mButtonCartBell = itemView.findViewById(R.id.button_cart_bell);
 
             mButtonCartDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -99,6 +101,18 @@ public class ListCartAdapter extends RecyclerView.Adapter<ListCartAdapter.ListCa
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION) {
                             mListener.onUpdateCartButtonClicked(position);
+                        }
+                    }
+                }
+            });
+
+            mButtonCartBell.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.onBellCartButtonClicked(position);
                         }
                     }
                 }

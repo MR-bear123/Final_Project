@@ -21,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.restaurantfinalproject.Adapter.ListCartAdapter;
 import com.example.restaurantfinalproject.Model.Cart;
+import com.example.restaurantfinalproject.Model.Food;
 import com.example.restaurantfinalproject.Model.History;
+import com.example.restaurantfinalproject.Model.Kitchen;
 import com.example.restaurantfinalproject.Model.Users;
 import com.example.restaurantfinalproject.R;
 import com.example.restaurantfinalproject.databinding.FragmentListCartBinding;
@@ -52,6 +54,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
     private RecyclerView recyclerView;
     private ListCartAdapter listCartAdapter;
     private List<Cart> listCart;
+    private DatabaseReference cartKe;
     private DatabaseReference databaseReference;
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -298,6 +301,63 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
             }
         });
         bottomSheetDialog.show();
+    }
+
+    @Override
+    public void onBellCartButtonClicked(int position) {
+        Cart selectedCart = listCart.get(position);
+        String des = binding.CartDescription.getText().toString();
+        addToBell(selectedCart,des);
+    }
+
+    private void addToBell(Cart selectedCart, String Des) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        cartKe = FirebaseDatabase.getInstance().getReference("ketchden");
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String userName = dataSnapshot.child("name").getValue(String.class);
+                    DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference().child("cart").child(selectedCart.getIdcart());
+                    cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot cartSnapshot) {
+                            if (cartSnapshot.exists()) {
+                                String foodName = cartSnapshot.child("namefood").getValue(String.class);
+                                String number = binding.numbertabel.getText().toString().trim();
+
+
+                                String kettid = cartKe.push().getKey();
+                                Kitchen ketItem = new Kitchen(kettid,number,userName,foodName,Des,"Processing");
+
+                                DatabaseReference kettRef = FirebaseDatabase.getInstance().getReference().child("ketchin");
+                                kettRef.push().setValue(ketItem);
+
+                                Toast.makeText(getContext(), "Item added to Ketchin successfully", Toast.LENGTH_SHORT).show();
+
+                                binding.numbertabel.setText("");
+                                binding.CartDescription.setText("");
+                            } else {
+                                Toast.makeText(getContext(), "Ketchin not found", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError foodError) {
+                            Toast.makeText(getContext(), "Failed to retrieve ketchin data: " + foodError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getContext(), "User not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError userError) {
+                Toast.makeText(getContext(), "Failed to retrieve user data: " + userError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void calculateTotalPriceFromFirebase() {
