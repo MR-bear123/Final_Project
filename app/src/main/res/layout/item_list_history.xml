@@ -6,7 +6,6 @@
     android:background="@color/white"
     android:gravity="center_horizontal">
 
-    <!-- TextView thể hiện Code Bill -->
     <TextView
         android:id="@+id/codeBillTextView"
         android:text="Code Bill"
@@ -14,15 +13,11 @@
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textSize="18sp"/>
-
-    <!-- LinearLayout chứa các thông tin chi tiết -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@color/white">
-
-        <!-- TextView cho các thông tin chi tiết -->
         <TextView
             android:id="@+id/userNameTextView"
             android:textColor="@color/black"
