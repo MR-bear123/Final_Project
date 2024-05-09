@@ -307,12 +307,16 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
     public void onBellCartButtonClicked(int position) {
         Cart selectedCart = listCart.get(position);
         String des = binding.CartDescription.getText().toString();
+        if (des.isEmpty()) {
+            Toast.makeText(getContext(), "Please fill in the table description", Toast.LENGTH_SHORT).show();
+            return;
+        }
         addToBell(selectedCart,des);
     }
 
     private void addToBell(Cart selectedCart, String Des) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        cartKe = FirebaseDatabase.getInstance().getReference("ketchden");
+        cartKe = FirebaseDatabase.getInstance().getReference("kitchen");
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -326,12 +330,16 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
                             if (cartSnapshot.exists()) {
                                 String foodName = cartSnapshot.child("namefood").getValue(String.class);
                                 String number = binding.numbertabel.getText().toString().trim();
+                                if (number.isEmpty()) {
+                                    Toast.makeText(getContext(), "Please fill in the table number", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
                                 int quanlity = cartSnapshot.child("quanlity").getValue(Integer.class);
 
                                 String kettid = cartKe.push().getKey();
                                 Kitchen ketItem = new Kitchen(kettid,number,userName,foodName,quanlity,Des,"Processing");
 
-                                DatabaseReference kettRef = FirebaseDatabase.getInstance().getReference().child("ketchin");
+                                DatabaseReference kettRef = FirebaseDatabase.getInstance().getReference().child("kitchen");
                                 kettRef.push().setValue(ketItem);
 
                                 Toast.makeText(getContext(), "Item added to Ketchin successfully", Toast.LENGTH_SHORT).show();

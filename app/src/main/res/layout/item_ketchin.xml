@@ -12,51 +12,36 @@
         android:background="@color/white"
         android:padding="10dp">
         <TextView
-            android:id="@+id/item_Book_name"
-            android:text="Name:"
+            android:id="@+id/item_ket_namefood"
+            android:text="NameFood:"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"/>
         <TextView
-            android:id="@+id/item_Book_phone"
+            android:id="@+id/item_ket_namestaff"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Phone:"
+            android:text="NameStaff:"
             android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/item_Book_time"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Time:"
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/item_Book_date"
-            android:text="Date:"
+            android:id="@+id/item_Ket_numbertable"
+            android:text="Number Table:"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"/>
         <TextView
-            android:id="@+id/item_Book_Code"
-            android:text="Desk code:"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"/>
-        <TextView
-            android:id="@+id/item_Book_des"
+            android:id="@+id/item_Ket_des"
             android:text="Description:"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"/>
         <TextView
-            android:id="@+id/item_Book_status"
+            android:id="@+id/item_Ket_status"
             android:text="Status:"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
@@ -67,19 +52,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="|"
-                android:textColor="@color/black"
-                android:textSize="33dp" />
             <ImageButton
-                android:id="@+id/button_Book_accept"
+                android:id="@+id/button_Ket_accept"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_check_24" />
             <ImageButton
-                android:id="@+id/button_Book_reject"
+                android:id="@+id/button_Ket_reject"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/baseline_cancel_24" />

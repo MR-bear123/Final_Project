@@ -35,6 +35,13 @@
             android:iconTint="@null"
             android:icon="@drawable/baseline_bar_chart_24"
             />
+
+        <item android:id="@+id/Kitchen"
+            android:title="Kitchen"
+            android:iconTintMode="multiply"
+            android:iconTint="@null"
+            android:icon="@drawable/chef"
+            />
     </group>
 
     <item android:title="@string/Account">

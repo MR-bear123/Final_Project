@@ -45,8 +45,8 @@ public class ListCartAdapter extends RecyclerView.Adapter<ListCartAdapter.ListCa
             holder.namestaff.setText("Name: " + cart.getNameStaff());
             holder.namefood.setText("Name Food: " + cart.getNamefood());
             holder.price.setText("Price: " + cart.getPrice() + "$");
-            holder.qua.setText("Quanlity: " + cart.getQuantity());
-            holder.textItemPrice.setText("Price to the dish: " + (cart.getPrice() * cart.getQuantity()));
+            holder.qua.setText("Quanlity: " + cart.getQuanlity());
+            holder.textItemPrice.setText("Price to the dish: " + (cart.getPrice() * cart.getQuanlity()));
             String imageUrl = cart.getImageUrl();
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 Picasso.get().load(imageUrl).into(holder.avatarImageViewcart);

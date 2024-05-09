@@ -27,6 +27,7 @@ import com.example.restaurantfinalproject.fragment.ChangPasswordFragment;
 import com.example.restaurantfinalproject.fragment.EmployeelistFragment;
 import com.example.restaurantfinalproject.fragment.FoodFragment;
 import com.example.restaurantfinalproject.fragment.FragmentChart;
+import com.example.restaurantfinalproject.fragment.FragmentListKitchen;
 import com.example.restaurantfinalproject.fragment.HistoryFragment;
 import com.example.restaurantfinalproject.fragment.MyProfileFragment;
 import com.example.restaurantfinalproject.fragment.WarehousesFragment;
@@ -52,6 +53,7 @@ public class DashboardPage extends AppCompatActivity implements NavigationView.O
     private static final int FRAGMENT_CARTLIST = 6;
     private static final int FRAGMENT_HISTORYLIST = 7;
     private static final int FRAGMENT_CHART = 8;
+    private static final int FRAGMENT_KITCHEN = 9;
     private int mCurrentFragment = FRAGMENT_ACCOUNT;
     private DrawerLayout dralay;
     private static final int MY_REQUEST_CODE = 10;
@@ -66,6 +68,7 @@ public class DashboardPage extends AppCompatActivity implements NavigationView.O
     final private CarrtFagment mCartFragment = new CarrtFagment();
     final private HistoryFragment mHistoryFragment = new HistoryFragment();
     final private FragmentChart mChart = new FragmentChart();
+    final private FragmentListKitchen mKitchen = new FragmentListKitchen();
     NavigationView navigationView;
 
     @Override
@@ -194,6 +197,11 @@ public class DashboardPage extends AppCompatActivity implements NavigationView.O
             if (mCurrentFragment != FRAGMENT_HISTORYLIST) {
                 replaceFragment(mHistoryFragment);
                 mCurrentFragment = FRAGMENT_HISTORYLIST;
+            }
+        }else if (id == R.id.Kitchen) {
+            if (mCurrentFragment != FRAGMENT_KITCHEN) {
+                replaceFragment(mKitchen);
+                mCurrentFragment = FRAGMENT_KITCHEN;
             }
         }else if (id == R.id.chart) {
             if (mCurrentFragment != FRAGMENT_CHART) {

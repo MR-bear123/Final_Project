@@ -42,7 +42,7 @@ public class ListHistoryAdapter extends RecyclerView.Adapter<ListHistoryAdapter.
         StringBuilder cartDetails = new StringBuilder();
         for (Cart cart : cartList) {
             cartDetails.append("Food: "+ cart.getNamefood()).append(" - ");
-            cartDetails.append("Quantity: ").append(cart.getQuantity()).append("+");
+            cartDetails.append("Quantity: ").append(cart.getQuanlity()).append("+");
             cartDetails.append("Price: ").append(cart.getPrice()).append("\n");
         }
         holder.cartList.setText(cartDetails.toString());
