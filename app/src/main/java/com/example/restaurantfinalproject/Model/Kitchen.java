@@ -20,8 +20,8 @@ public class Kitchen {
         this.userName = userName;
         this.namefood = namefood;
         this.quanlity = quanlity;
-        Description = description;
-        Stastu = stastu;
+        this.Description = description;
+        this.Stastu = stastu;
     }
 
     public String getId() {

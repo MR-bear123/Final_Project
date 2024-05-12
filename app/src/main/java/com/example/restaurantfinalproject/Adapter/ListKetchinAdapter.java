@@ -18,9 +18,14 @@ import java.util.List;
 public class ListKetchinAdapter extends RecyclerView.Adapter<ListKetchinAdapter.ListKetchinHolder> {
 
     private List<Kitchen> KitchenList;
-//    private ListKetchinAdapter.BookButtonClickListener mListener;
-public ListKetchinAdapter(List<Kitchen> listket) {
+    private ListKetchinAdapter.KetButtonClickListener mListener;
+    public interface KetButtonClickListener{
+        void onAcceptButtonClicked(int position);
+        void onRejectButtonClicked(int position);
+    }
+public ListKetchinAdapter(List<Kitchen> listket, KetButtonClickListener listener) {
     this.KitchenList = listket;
+    this.mListener = listener;
 
 }
     @NonNull
@@ -37,9 +42,10 @@ public ListKetchinAdapter(List<Kitchen> listket) {
             return;
         }
 
-        holder.namefood.setText("Name: " + ket.getNamefood());
-        holder.namestaff.setText("Time: " + ket.getUserName());
-        holder.numbertabel.setText("Phone: " + ket.getNumberTable());;
+        holder.namefood.setText("Fodd: " + ket.getNamefood());
+        holder.namestaff.setText("Staff: " + ket.getUserName());
+        holder.quanlity.setText("Quanlity: "+ket.getQuanlity());
+        holder.numbertabel.setText("Number Table: " + ket.getNumberTable());;
         holder.des.setText("Description: " + ket.getDescription());
         holder.status.setText("Status: " + ket.getStastu());
     }
@@ -53,12 +59,13 @@ public ListKetchinAdapter(List<Kitchen> listket) {
     }
 
     public class ListKetchinHolder extends RecyclerView.ViewHolder {
-        TextView namefood, namestaff, numbertabel, des, status;
+        TextView namefood, namestaff, numbertabel, quanlity, des, status;
 
         public ListKetchinHolder(@NonNull View itemView) {
             super(itemView);
             namefood = itemView.findViewById(R.id.item_ket_namefood);
             namestaff = itemView.findViewById(R.id.item_ket_namestaff);
+            quanlity = itemView.findViewById(R.id.item_ket_quanlity);
             numbertabel = itemView.findViewById(R.id.item_Ket_numbertable);
             des = itemView.findViewById(R.id.item_Ket_des);
             status = itemView.findViewById(R.id.item_Ket_status);
@@ -69,7 +76,7 @@ public ListKetchinAdapter(List<Kitchen> listket) {
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-//                        mListener.onRejectButtonClicked(position);
+                        mListener.onAcceptButtonClicked(position);
                     }
                 }
             });
@@ -79,7 +86,7 @@ public ListKetchinAdapter(List<Kitchen> listket) {
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (position != RecyclerView.NO_POSITION) {
-//                        mListener.onAcceptButtonClicked(position);
+                        mListener.onRejectButtonClicked(position);
                     }
                 }
             });

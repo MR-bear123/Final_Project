@@ -344,7 +344,7 @@ public class CarrtFagment extends Fragment implements ListCartAdapter.CartButton
 
                                 Toast.makeText(getContext(), "Item added to Ketchin successfully", Toast.LENGTH_SHORT).show();
 
-                                binding.numbertabel.setText("");
+//                                binding.numbertabel.setText("");
                                 binding.CartDescription.setText("");
                             } else {
                                 Toast.makeText(getContext(), "Ketchin not found", Toast.LENGTH_SHORT).show();

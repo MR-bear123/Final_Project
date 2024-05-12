@@ -157,7 +157,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                         Toast.makeText(getContext(), "Failed to update table status", Toast.LENGTH_SHORT).show();
                     }
                 });
-        }
+    }
 
 
     private void loadAllTable() {
@@ -412,7 +412,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        updateTableStatus(position, "accepted");
+        updateTableStatus(position, "Accepted");
     }
 
 
@@ -420,7 +420,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
 
     @Override
     public void onRejectButtonClicked(int position) {
-        updateTableStatus(position, "rejected");
+        updateTableStatus(position, "Rejected");
     }
 
     private void checkBookingTime(Table table) {

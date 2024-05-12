@@ -25,6 +25,13 @@
             android:layout_height="wrap_content"
             android:text="NameStaff:"
             android:textSize="20dp" />
+        <TextView
+            android:id="@+id/item_ket_quanlity"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quanlity:"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/item_Ket_numbertable"

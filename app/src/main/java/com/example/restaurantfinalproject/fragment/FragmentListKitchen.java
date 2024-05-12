@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,7 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentListKitchen extends Fragment {
+public class FragmentListKitchen extends Fragment implements ListKetchinAdapter.KetButtonClickListener {
     private FragmentListKetchinBinding binding;
     private RecyclerView recyclerView;
     private List<Kitchen> listket;
@@ -52,18 +53,11 @@ public class FragmentListKitchen extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
             listket = new ArrayList<>();
-            listKetchinAdapter= new ListKetchinAdapter(listket);
+            listKetchinAdapter= new ListKetchinAdapter(listket, this);
             recyclerView.setAdapter(listKetchinAdapter);
 
             FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
             databaseReference = firebaseDatabase.getReference().child("kitchen");
-
-
-
-
-
-
-
 
             loadListKetchin();
             return view;
@@ -125,5 +119,31 @@ public class FragmentListKitchen extends Fragment {
             }
         }
         return false;
+    }
+
+    @Override
+    public void onAcceptButtonClicked(int position) {
+        updateTableStatus(position,"Accepted");
+    }
+
+    @Override
+    public void onRejectButtonClicked(int position) {
+        updateTableStatus(position,"Rejected");
+    }
+
+    private void updateTableStatus(int position, String status) {
+        Kitchen kitchen = listket.get(position);
+        kitchen.setStastu(status);
+        DatabaseReference tableRef = FirebaseDatabase.getInstance().getReference().child("kitchen").child(kitchen.getId());
+        tableRef.child("stastu").setValue(status)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getContext(), "Kitchen status updated successfully", Toast.LENGTH_SHORT).show();
+                        listket.set(position, kitchen);
+                        listKetchinAdapter.notifyItemChanged(position);
+                    } else {
+                        Toast.makeText(getContext(), "Failed to update kitchen status", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
