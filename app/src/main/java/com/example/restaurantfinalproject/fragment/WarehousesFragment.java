@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +56,8 @@ import java.util.Set;
 
 public class WarehousesFragment extends Fragment implements ListWarehousesAdapter.BookButtonClickListener {
     private static final int PERMISSION_REQUEST_SEND_SMS = 2;
+    private boolean isSendingSMS = false;
+    private boolean isProcessingChangeEvent = false;
     FloatingActionButton floatingActionButton;
     private RecyclerView recyclerView;
     private List<Table> listTable;
@@ -154,6 +155,8 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                     if (task.isSuccessful()) {
                         Toast.makeText(getContext(), "Table status updated successfully", Toast.LENGTH_SHORT).show();
                         listTable.set(position, table);
+                        sendSMS(table.getCuphone(), "Dear " + table.getCuname() + ", Your booking on " +
+                                table.getDate() + " at " + table.getTime() + " has been accepted. Your booking code is: " + table.getRandomCode());
                         listWarehousesAdapter.notifyItemChanged(position);
                     } else {
                         Toast.makeText(getContext(), "Failed to update table status", Toast.LENGTH_SHORT).show();
@@ -179,82 +182,9 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                 }
             }
 
-//            private Set<String> sentSMSKeys = new HashSet<>();
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                final String changedKey = snapshot.getKey();
-//                if (!sentSMSKeys.contains(changedKey)) {
-//                    sentSMSKeys.add(changedKey);
-//
-//                    Table updatedTable = snapshot.getValue(Table.class);
-//                    if (updatedTable != null && updatedTable.getStatus().equals("rejected") && !updatedTable.isSMSSent()) {
-//                        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-//                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_SEND_SMS);
-//                        } else {
-//                            // Gửi SMS
-//                            sendSMS(updatedTable.getCuphone(), "Welcome to Restaurant, Dear " +
-//                                    updatedTable.getCuname() + ", Your table has been booked" +
-//                                    "\nOn date" + updatedTable.getDate() + " At " + updatedTable.getTime() + ". \nYour booking code is: " + updatedTable.getRandomCode() +
-//                                    ".\nWe have canceled your dining reservation information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
-//                            updatedTable.setSMSSent(true);
-//                            databaseReference.child(updatedTable.getId()).child("isSMSSent").setValue(true);
-//                            for (int i = 0; i < listTable.size(); i++) {
-//                                if (listTable.get(i).getId().equals(changedKey)) {
-//                                    listTable.set(i, updatedTable);
-//                                    listWarehousesAdapter.notifyItemChanged(i);
-//                                    break;
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-
-            private boolean isSendingSMS = false;
-            private Set<String> sentSMSKeys = new HashSet<>();
-            private boolean isProcessingChangeEvent = false;
-
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if (snapshot.exists()) {
-                    if (!isProcessingChangeEvent) {
-                        isProcessingChangeEvent = true;
-                        final String changedKey = snapshot.getKey();
-                        if (!sentSMSKeys.contains(changedKey)) {
-                            sentSMSKeys.add(changedKey);
-                            Table updatedTable = snapshot.getValue(Table.class);
-                            if (updatedTable != null && updatedTable.getStatus().equals("rejected") && !updatedTable.SMSSent()) {
-                                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_SEND_SMS);
-                                } else {
-                                    sendSMSForRejectedTable(updatedTable);
-                                }
-                            }
-                        }
-                        isProcessingChangeEvent = false;
-                    }
-                }
-            }
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
-            private void sendSMSForRejectedTable(Table table) {
-                if (!table.SMSSent()) {
-                    isSendingSMS = true;
-                    sendSMS(table.getCuphone(), "Welcome to Restaurant, Dear " +
-                            table.getCuname() + ", Your table has been booked" +
-                            "\nOn date" + table.getDate() + " At " + table.getTime() + ". \nYour booking code is: " + table.getRandomCode() +
-                            ".\nWe have canceled your dining reservation information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
-                    table.setSMSSent(true);
-                    databaseReference.child(table.getId()).child("smssent").setValue(true);
-                    for (int i = 0; i < listTable.size(); i++) {
-                        if (listTable.get(i).getId().equals(table.getId())) {
-                            listTable.remove(i);
-                            listWarehousesAdapter.notifyItemRemoved(i);
-                            break;
-                        }
-                    }
-                    isSendingSMS = false;
-                }
-            }
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 String deletedKey = snapshot.getKey();
@@ -462,13 +392,17 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
         updateTableStatus(position, "Accepted");
     }
 
-
-
-
     @Override
     public void onRejectButtonClicked(int position) {
-        updateTableStatus(position, "Rejected");
+        Table table = listTable.get(position);
+        Toast.makeText(getContext(), "Table status updated successfully", Toast.LENGTH_SHORT).show();
+            sendSMS(table.getCuphone(), "Welcome to Restaurant, Dear " +
+                    table.getCuname() + ", Your table has been booked" +
+                    "\nOn date " + table.getDate() + " At " + table.getTime() + ". \nYour booking code is: " + table.getRandomCode() +
+                    ".\nWe have canceled your dining reservation information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
+            databaseReference.child(table.getId()).removeValue();
     }
+
 
     private void checkBookingTime(Table table) {
         try {
@@ -503,5 +437,15 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
         }
     }
 
+//    @Override
+//    public void onRejectButtonClicked(int position) {
+//        Table table = listTable.get(position);
+//        table.setStatus("rejected");
+//        databaseReference.child(table.getId()).child("status").setValue("rejected");
+//        Toast.makeText(getContext(), "Table status updated successfully", Toast.LENGTH_SHORT).show();
+//        sendSMS(table.getCuphone(), "Dear " + table.getCuname() + ", Unfortunately, your booking on " +
+//                table.getDate() + " at " + table.getTime() + " has been rejected. Please contact us for more details.");
+//        listWarehousesAdapter.notifyItemChanged(position);
+//    }
 
 }
