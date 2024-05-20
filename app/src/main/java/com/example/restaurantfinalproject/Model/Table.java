@@ -1,7 +1,7 @@
 package com.example.restaurantfinalproject.Model;
 
 public class Table {
-    private boolean isSMSSent;
+    private boolean SMSSent;
     private String id;
     private String cuname;
     private String cuphone;
@@ -25,12 +25,12 @@ public class Table {
         this.status = status;
     }
 
-    public boolean isSMSSent() {
-        return isSMSSent;
+    public boolean SMSSent() {
+        return SMSSent;
     }
 
     public void setSMSSent(boolean SMSSent) {
-        isSMSSent = SMSSent;
+        SMSSent = SMSSent;
     }
 
 
