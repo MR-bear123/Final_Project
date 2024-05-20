@@ -9,7 +9,6 @@ public class Table {
     private String date;
     private String time;
     private String randomCode;
-
     private String status;
 
     public Table() {
@@ -33,6 +32,8 @@ public class Table {
     public void setSMSSent(boolean SMSSent) {
         isSMSSent = SMSSent;
     }
+
+
 
     public String getId() {
         return id;

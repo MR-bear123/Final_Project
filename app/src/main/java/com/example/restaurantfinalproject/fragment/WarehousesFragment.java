@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class WarehousesFragment extends Fragment implements ListWarehousesAdapter.BookButtonClickListener {
     private static final int PERMISSION_REQUEST_SEND_SMS = 2;
@@ -135,7 +138,6 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                 }
             });
             loadAllTable();
-
             return view;
         } else {
             return binding.getRoot();
@@ -176,34 +178,75 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                 }
             }
 
+//            private Set<String> sentSMSKeys = new HashSet<>();
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                final String changedKey = snapshot.getKey();
+//                if (!sentSMSKeys.contains(changedKey)) {
+//                    sentSMSKeys.add(changedKey);
+//
+//                    Table updatedTable = snapshot.getValue(Table.class);
+//                    if (updatedTable != null && updatedTable.getStatus().equals("rejected") && !updatedTable.isSMSSent()) {
+//                        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+//                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_SEND_SMS);
+//                        } else {
+//                            // Gửi SMS
+//                            sendSMS(updatedTable.getCuphone(), "Welcome to Restaurant, Dear " +
+//                                    updatedTable.getCuname() + ", Your table has been booked" +
+//                                    "\nOn date" + updatedTable.getDate() + " At " + updatedTable.getTime() + ". \nYour booking code is: " + updatedTable.getRandomCode() +
+//                                    ".\nWe have canceled your dining reservation information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
+//                            updatedTable.setSMSSent(true);
+//                            databaseReference.child(updatedTable.getId()).child("isSMSSent").setValue(true);
+//                            for (int i = 0; i < listTable.size(); i++) {
+//                                if (listTable.get(i).getId().equals(changedKey)) {
+//                                    listTable.set(i, updatedTable);
+//                                    listWarehousesAdapter.notifyItemChanged(i);
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+
+            private boolean isSendingSMS = false;
+            private Set<String> sentSMSKeys = new HashSet<>();
+
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String changedKey = snapshot.getKey();
-                for (int i = 0; i < listTable.size(); i++) {
-                    if (listTable.get(i).getId().equals(changedKey)) {
-                        Table updatedTable = snapshot.getValue(Table.class);
-                        updatedTable.setId(changedKey);
-                        listTable.set(i, updatedTable);
-                        listWarehousesAdapter.notifyItemChanged(i);
+                final String changedKey = snapshot.getKey();
 
-                        if (updatedTable.getStatus().equals("rejected") && !updatedTable.isSMSSent()) {
-                            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_SEND_SMS);
-                            } else {
-                                sendSMS(updatedTable.getCuphone(), "Welcome to Restaurant, Dear " +
-                                        updatedTable.getCuname() + ", Your table has been booked" +
-                                        "\nOn date" + updatedTable.getDate() + " At " + updatedTable.getTime() + ". \nYour booking code is: " + updatedTable.getRandomCode() +
-                                        ".\nWe have canceled your dining reservation information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
+                if (!sentSMSKeys.contains(changedKey) && !isSendingSMS) {
+                    sentSMSKeys.add(changedKey);
 
-                                updatedTable.setSMSSent(true);
-                                databaseReference.child(updatedTable.getId()).child("isSMSSent").setValue(true);
+                    Table updatedTable = snapshot.getValue(Table.class);
+                    if (updatedTable != null && updatedTable.getStatus().equals("rejected") && !updatedTable.isSMSSent()) {
+                        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, PERMISSION_REQUEST_SEND_SMS);
+                        } else {
+                            isSendingSMS = true; // Đánh dấu là đang gửi SMS
+
+                            // Gửi SMS
+                            sendSMS(updatedTable.getCuphone(), "Welcome to Restaurant, Dear " +
+                                    updatedTable.getCuname() + ", Your table has been booked" +
+                                    "\nOn date" + updatedTable.getDate() + " At " + updatedTable.getTime() + ". \nYour booking code is: " + updatedTable.getRandomCode() +
+                                    ".\nWe have canceled your dining reservation information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
+                            updatedTable.setSMSSent(true);
+                            databaseReference.child(updatedTable.getId()).child("smssent").setValue(true);
+
+                            // Cập nhật lại dữ liệu trong danh sách và thông báo cho adapter
+                            for (int i = 0; i < listTable.size(); i++) {
+                                if (listTable.get(i).getId().equals(changedKey)) {
+                                    listTable.set(i, updatedTable);
+                                    listWarehousesAdapter.notifyItemChanged(i);
+                                    break;
+                                }
                             }
+                            isSendingSMS = false; // Đánh dấu là đã gửi SMS xong
                         }
-                        break;
                     }
                 }
             }
-
 
 
             @Override
@@ -218,7 +261,6 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                 }
             }
 
-
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
             }
@@ -228,7 +270,6 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
             }
         });
     }
-
 
     private boolean isTableExists(String tableId) {
         for (Table table : listTable) {
@@ -376,7 +417,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
                                                 "\nOn date" + table.getDate() + " At " + table.getTime() + ". \nYour booking code is: " + table.getRandomCode() +
                                                 ".\nWe have updated your dining reservation information. Please check if there is anything wrong, if anything is wrong, please contact us so we can fix it promptly. Thank you.");
                                         table.setSMSSent(true);
-                                        databaseReference.child(table.getId()).child("isSMSSent").setValue(true);
+                                        databaseReference.child(table.getId()).child("smssent").setValue(true);
                                     }
                                 }
                             }
@@ -431,7 +472,7 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
             long diffInMillies = Math.abs(currentTime.getTime() - bookingTime.getTime());
             long diffInMinutes = diffInMillies / (60 * 1000);
 
-            if (!table.getStatus().equals("accepted") && diffInMinutes > 5 && !table.isSMSSent()) {
+            if (!table.getStatus().equals("accepted") && diffInMinutes > 1 && !table.isSMSSent()) {
                 databaseReference.child(table.getId()).child("status").setValue("rejected")
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -455,4 +496,6 @@ public class WarehousesFragment extends Fragment implements ListWarehousesAdapte
             e.printStackTrace();
         }
     }
+
+
 }
