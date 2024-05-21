@@ -3,7 +3,7 @@
 
     <group android:checkableBehavior="single">
         <item android:id="@+id/Food"
-            android:title="Creat Food and Drink"
+            android:title="List Menu"
             android:icon="@drawable/baseline_fastfood_24"/>
 
         <item android:id="@+id/Cart"
